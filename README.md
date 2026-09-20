@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Worldwide Weather API
 
 A small FastAPI service that finds a city anywhere in the world and returns its current weather in Celsius or Fahrenheit. It uses [Open-Meteo](https://open-meteo.com/), so no API key is required.
@@ -27,3 +28,7 @@ curl 'http://127.0.0.1:8000/weather?city=New%20York&unit=fahrenheit'
 ```bash
 python -m pytest
 ```
+=======
+# weather_api
+just started
+>>>>>>> 4df106c0336a6c8f9c72716b72c3b62d9c757d7b
