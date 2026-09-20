@@ -21,4 +21,4 @@ def retrieve(query: str, limit: int = 3) -> List[Dict[str, str]]:
             matches.append({"source": path.name, "content": content, "score": score})
 
     matches.sort(key=lambda item: (-int(item["score"]), item["source"]))
-    return matches[:limit] 
+    return matches[:limit]
