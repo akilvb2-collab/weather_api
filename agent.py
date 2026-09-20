@@ -112,5 +112,5 @@ def run_agent(message: str) -> dict:
     return {
         "answer": final_response.get("message", {}).get("content", ""),
         "tools_used": tools_used,
-        "sources": [item["source"] for item in retrieved] ,
+        "sources": [item["source"] for item in retrieved],
     }
