@@ -5,6 +5,7 @@ from urllib.request import Request, urlopen
 import json
 
 from fastapi import FastAPI, HTTPException, Query
+from pydantic import BaseModel
 
 
 app = FastAPI(
@@ -36,13 +37,7 @@ def health() -> dict:
     return {"status": "ok"}
 
 
-@app.get("/weather")
-def weather(
-    city: str = Query(..., min_length=1, description="City name, for example London"),
-    unit: Literal["celsius", "fahrenheit"] = Query(
-        "celsius", description="Temperature unit"
-    ),
-) -> dict:
+def get_weather_data(city: str, unit: Literal["celsius", "fahrenheit"]) -> dict:
     city = city.strip()
     if not city:
         raise HTTPException(status_code=422, detail="City name cannot be empty.")
@@ -93,3 +88,27 @@ def weather(
         },
         "source": "Open-Meteo",
     }
+
+
+@app.get("/weather")
+def weather(
+    city: str = Query(..., min_length=1, description="City name, for example London"),
+    unit: Literal["celsius", "fahrenheit"] = Query(
+        "celsius", description="Temperature unit"
+    ),
+) -> dict:
+    return get_weather_data(city, unit)
+
+
+class AgentRequest(BaseModel):
+    message: str
+
+
+@app.post("/agent")
+def agent(request: AgentRequest) -> dict:
+    if not request.message.strip():
+        raise HTTPException(status_code=422, detail="Message cannot be empty.")
+
+    from agent import run_agent
+
+    return run_agent(request.message)
